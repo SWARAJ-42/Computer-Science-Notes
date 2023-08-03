@@ -23,7 +23,7 @@ library PriceConverter {
         return priceFeed.version();
     }
 
-    // getting the total ETH amount in USD 
+    // getting the total ETH amount in USD
     function getConversionRate(uint256 ethAmount) internal view returns(uint256) {
         uint256 ethPrice = getPrice();
         uint256 ethAmountUSD = ethPrice * ethAmount / 1e18;

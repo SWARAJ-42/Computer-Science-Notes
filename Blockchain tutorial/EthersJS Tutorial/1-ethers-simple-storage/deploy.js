@@ -1,17 +1,19 @@
 const ethers = require("ethers");
 const fs = require("fs-extra");
+require("dotenv").config();
 
 async function main() {
     // compile them in our code
     // compile them separately
-    // http://127.0.0.1:7545
-    // 0x76c2e4fcb6804878d8ae59528a61235707c7ac083045012800f65605c59efcdf
 
     // Setting up the network(ganache) and user
-    const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545");
-    const wallet = new ethers.Wallet("0x76c2e4fcb6804878d8ae59528a61235707c7ac083045012800f65605c59efcdf", provider);
-
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+    // const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+    
     // Defining the abi and bin files created from compiling
+    const encryptedJson = fs.readFileSync("./.encryptedKey.json", "utf-8");
+    let wallet = new ethers.Wallet.fromEncryptedJsonSync(encryptedJson, process.env.PRIVATE_KEY_PASSWORD);
+    wallet = await wallet.connect(provider);
     const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf-8");
     const binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf-8");
 
@@ -23,12 +25,22 @@ async function main() {
     const contract = await contractFactory.deploy(/*{gasPrice: 1000000000}*/); // STOP here!! and wait for the deployment
     // console.log(contract);
     
-    console.log("Here is the deployment transaction (transaction response): ");
-    console.log(contract.deployTransaction);
+    // console.log("Here is the deployment transaction (transaction response): ");
+    // console.log(contract.deployTransaction);
 
-    const transactionReceipt = await contract.deployTransaction.wait(1);
-    console.log("Here is the transaction receipt: ");
-    console.log(transactionReceipt);
+    // const transactionReceipt = await contract.deployTransaction.wait(1);
+    // console.log("Here is the transaction receipt: ");
+    // console.log(transactionReceipt);
+
+    // Get number
+    const currentFavouriteNumber = await contract.retrieve(); // retrieve function is defined in SimpleStorage.sol 
+    console.log(`Current Favourite Number: ${currentFavouriteNumber.toString()}`);
+    const transactionResponse = await contract.store("7"); // Store function is defined in SimpleStorage.sol
+    const transactionReceipt = await transactionResponse.wait(1);
+    const updatedFavouriteNumber = await contract.retrieve();
+    console.log(`Updated favourite number is: ${updatedFavouriteNumber}`);
+
+
 
     // manually creating a transaction data
     // console.log("Let's deploy with only transaction data!");

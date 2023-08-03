@@ -41,11 +41,11 @@
 			]
 		},
 		"FundMe/PriceConverter.sol": {
-			"keccak256": "0x05511043e74c06003592c92e33ee40072474881e80cb465951185cd8fdb6dfee",
+			"keccak256": "0x25e80d02184e1514a5331b8188d7609f2c3eade758de690e524aea73e61d3998",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d49434ed0f02ec1491b5f2ddd06a172af35e6d2c3830f68fee6b474adc9eade0",
-				"dweb:/ipfs/QmVgssokastWpZVcre8dfJuYsV1J3zsMoF7YUf5zUWgjzW"
+				"bzz-raw://cee29821cdecba64c32ad5ca11ebea5c1427f0cd287108ce4d0c4a71289455e5",
+				"dweb:/ipfs/QmU25xdV1eveTP1haH74RbFGrj5pWRnrwQrd845tkczmip"
 			]
 		}
 	},
