@@ -9,15 +9,17 @@ async function main() {
     const hardhatToken = await ethers.deployContract("SimpleStorage")
     console.log("Deploying...")
     await hardhatToken.waitForDeployment()
-    console.log(`Deployed contract to: ${owner.address}`)
+    console.log(`Contract creator address: ${owner.address}`)
+    const contract_address = await hardhatToken.getAddress()
+    console.log(`Deployed contract to: ${contract_address}`)
 
     // what happens when we deploy the contract in hardhat network?
     // console.log(network.config)
 
-    if (network.config.chainId === 4 && process.env.ETHERSCAN_API_KEY) {
-      console.log("Waiting for verification...")
-      await hardhatToken.deployTransaction.wait(6)
-      await verify(owner.address, [])
+    if (network.config.chainId === 11155111 && process.env.ETHERSCAN_API_KEY) {
+      console.log("Waiting for block confirmation...")
+      await hardhatToken.deploymentTransaction().wait(6)
+      await verify(contract_address, [])
     }
 
     // interacting with the contract
